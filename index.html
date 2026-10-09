@@ -12,7 +12,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #00D632; /* Verde oficial de Cash App */
+            background-color: #00D632;
             color: #333;
             display: flex;
             justify-content: center;
@@ -92,15 +92,24 @@
         <p>Confirm your entry below to claim your reward. Limited spots available for US residents.</p>
         
         <div class="img-container">
-            <!-- Logo oficial limpio cargado desde Wikimedia (no necesitas descargar la imagen) -->
             <img src="cashapp.jpg" alt="Cash App">
         </div>
 
-        <!-- Enlace de afiliado personal para la oferta de Cash App en Android -->
-        <a href="https://singingfiles.com/show.php?l=0&u=670690&id=75221" class="btn">CLAIM $1,000 NOW</a>
+        <a id="offer-link" href="https://singingfiles.com/show.php?l=0&u=670690&id=75221" class="btn">CLAIM $1,000 NOW</a>
 
         <p class="footer-note">Free entry • No purchase necessary</p>
     </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const siteId = urlParams.get('siteid') || 'direct';
+
+        const linkBtn = document.getElementById('offer-link');
+        if (linkBtn) {
+            const baseUrl = linkBtn.getAttribute('href');
+            linkBtn.setAttribute('href', baseUrl + '&subid=' + encodeURIComponent(siteId));
+        }
+    </script>
 
 </body>
 </html>
