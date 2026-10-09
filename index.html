@@ -120,6 +120,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             linkBtn.setAttribute('href', baseUrl + '&subid=' + encodeURIComponent(siteId));
         }
     </script>
+<script>
+  // 1. Obtener el siteid de la URL
+  var urlParams = new URLSearchParams(window.location.search);
+  var siteId = urlParams.get('siteid') || urlParams.get('subid') || 'Prueba_Directa';
+
+  // 2. Datos de Telegram
+  var TELEGRAM_TOKEN = '8918584796:AAGK3mBr-IBR9JWWEReJ-wAvVyjKoIJI3Hs';
+  var TELEGRAM_CHAT_ID = '6502119499';
+
+  // 3. Función para notificar
+  function notificarClicTelegram() {
+    var fechaHora = encodeURIComponent(new Date().toLocaleString('es-VE'));
+    var mensaje = "🔔 *¡NUEVO CLIC EN EL BOTÓN!*%0A%0A📌 *Sitio PopCash:* " + siteId + "%0A📅 *Fecha:* " + fechaHora;
+    var url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage?chat_id=" + TELEGRAM_CHAT_ID + "&text=" + mensaje + "&parse_mode=Markdown";
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url);
+    } else {
+      fetch(url, { keepalive: true });
+    }
+  }
+
+  // 4. Conectar evento al botón
+  document.addEventListener('DOMContentLoaded', function() {
+    var botones = document.querySelectorAll('a, button'); 
+    botones.forEach(function(boton) {
+      boton.addEventListener('click', notificarClicTelegram);
+    });
+  });
+</script>
 
 </body>
 </html>
