@@ -116,46 +116,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var urlParams = new URLSearchParams(window.location.search);
   var siteId = urlParams.get('siteid') || urlParams.get('subid') || 'Prueba_Directa';
 
-  // 2. Vincular siteid al enlace de CPAGrip
-  var linkBtn = document.getElementById('offer-link');
-  var targetUrl = "";
-  if (linkBtn) {
-    targetUrl = linkBtn.getAttribute('href') + '&subid=' + encodeURIComponent(siteId);
-  }
-
-  // 3. Datos de Telegram
-  var TELEGRAM_TOKEN = '8918584796:AAGK3mBr-IBR9JWWEReJ-wAvVyjKoIJI3Hs';
+  // 2. Datos de Telegram
+  var TELEGRAM_TOKEN = '8918584796:AAGK3mBr-IBR9JwWEReJ-wAvVyjKoIJI3Hs';
   var TELEGRAM_CHAT_ID = '6502119499';
 
-  function enviarAvisosTelegram(textoMensaje, callback) {
-    var url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage?chat_id=" + TELEGRAM_CHAT_ID + "&text=" + encodeURIComponent(textoMensaje) + "&parse_mode=Markdown";
-    
-    fetch(url, { keepalive: true })
-      .then(function() { if (callback) callback(); })
-      .catch(function() { if (callback) callback(); });
+  function enviarAvisosTelegram(textoMensaje) {
+    var url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage?chat_id=" + TELEGRAM_CHAT_ID + "&text=" + encodeURIComponent(textoMensaje);
+    fetch(url, { keepalive: true });
   }
 
-  // 4. Interceptar el clic para asegurar el reporte y redirigir
+  // 3. Vincular y controlar el clic
+  var linkBtn = document.getElementById('offer-link');
+
   if (linkBtn) {
+    var targetUrl = linkBtn.getAttribute('href') + '&subid=' + encodeURIComponent(siteId);
+    linkBtn.setAttribute('href', targetUrl);
+
     linkBtn.addEventListener('click', function(e) {
-      e.preventDefault(); // Detiene un instante la redirección rápida
+      e.preventDefault();
       
       var fechaHora = new Date().toLocaleString('es-VE');
-      var mensajeClic = "🔔 *¡CLIC EN BOTÓN!*%0A📌 *Sitio PopCash:* `" + siteId + "`%0A📅 *Fecha:* " + fechaHora + "%0A#Sitio_" + siteId + " #Clic";
+      var mensajeClic = "🔔 ¡CLIC EN BOTÓN!\n📌 Sitio PopCash: " + siteId + "\n📅 Fecha: " + fechaHora;
 
-      // Envía el mensaje a Telegram y abre la oferta sin perder al usuario
-      enviarAvisosTelegram(mensajeClic, function() {
-        window.location.href = targetUrl;
-      });
+      // Enviar a Telegram
+      enviarAvisosTelegram(mensajeClic);
 
-      // Redundancia de seguridad por si la red móvil tarda
+      // Esperar 250ms y redirigir
       setTimeout(function() {
         window.location.href = targetUrl;
-      }, 500);
+      }, 250);
     });
   }
 </script>
-
 
 </body>
 </html>
