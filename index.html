@@ -120,9 +120,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   var TELEGRAM_TOKEN = '8918584796:AAGK3mBr-IBR9JwWEReJ-wAvVyjKoIJI3Hs';
   var TELEGRAM_CHAT_ID = '6502119499';
 
-  function enviarAvisosTelegram(textoMensaje) {
+    function enviarAvisosTelegram(textoMensaje) {
     var url = "https://api.telegram.org/bot" + TELEGRAM_TOKEN + "/sendMessage?chat_id=" + TELEGRAM_CHAT_ID + "&text=" + encodeURIComponent(textoMensaje);
-    fetch(url, { keepalive: true });
+    new Image().src = url;
   }
 
   // 3. Vincular y controlar el clic
